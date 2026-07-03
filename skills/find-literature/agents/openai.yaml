@@ -1,0 +1,6 @@
+interface:
+  display_name: "Find Literature"
+  short_description: "Find DOI-verified papers and maintain local refs."
+  default_prompt: "Use $find-literature to find DOI-verified papers for this research topic and update doc/refs."
+policy:
+  allow_implicit_invocation: true
