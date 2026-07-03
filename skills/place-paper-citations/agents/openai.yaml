@@ -1,0 +1,4 @@
+interface:
+  display_name: "Place Paper Citations"
+  short_description: "Add citations next to the exact claims they support."
+  default_prompt: "Use $place-paper-citations to add precise citations to this LaTeX paper paragraph."
