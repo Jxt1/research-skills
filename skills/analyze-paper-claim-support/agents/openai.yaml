@@ -1,0 +1,4 @@
+interface:
+  display_name: "Analyze Paper Claim Support"
+  short_description: "Analyze how cited papers support manuscript claims."
+  default_prompt: "Use $analyze-paper-claim-support to explain how a cited paper supports a claim and write the report to doc/reports/."

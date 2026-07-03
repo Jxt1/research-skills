@@ -1,18 +1,23 @@
 # Research Skills for Codex
 
-这是一个面向 Codex 的研究技能集合仓库。当前包含一个找文献技能，后续可以继续在 `skills/` 下添加其他研究技能，而不需要改变安装方式。
+这是一个面向 Codex 的研究技能集合仓库。当前包含文献检索与引用支撑分析两个技能，后续可以继续在 `skills/` 下添加其他研究技能，而不需要改变安装方式。
 
 ## 已包含技能
 
 | Skill | 用途 |
 | --- | --- |
 | `find-literature` | 检查本地参考文献是否足够；在需要时查找经过 DOI 验证的论文；下载可用 PDF；维护 `doc/refs/index.md`。 |
+| `analyze-paper-claim-support` | 分析引用论文是否支撑论文、综述或 proposal 中的具体表述，并在 `doc/reports/` 生成 Markdown 分析报告。 |
 
 ## 仓库结构
 
 ```text
 skills/
   find-literature/
+    SKILL.md
+    agents/openai.yaml
+    scripts/
+  analyze-paper-claim-support/
     SKILL.md
     agents/openai.yaml
     scripts/
@@ -48,10 +53,12 @@ bash scripts/install-skills.sh
 
 ```powershell
 .\scripts\install-skills.ps1 -Skill find-literature
+.\scripts\install-skills.ps1 -Skill analyze-paper-claim-support
 ```
 
 ```bash
 bash scripts/install-skills.sh find-literature
+bash scripts/install-skills.sh analyze-paper-claim-support
 ```
 
 安装到自定义 Codex home：
@@ -64,12 +71,13 @@ bash scripts/install-skills.sh find-literature
 CODEX_HOME="$HOME/.codex" bash scripts/install-skills.sh
 ```
 
-也可以手动安装：把 `skills/find-literature` 复制到 `<CODEX_HOME>/skills/find-literature`。其中 `<CODEX_HOME>` 是你的 Codex home 目录。
+也可以手动安装：把 `skills/<skill-name>` 复制到 `<CODEX_HOME>/skills/<skill-name>`。其中 `<CODEX_HOME>` 是你的 Codex home 目录。
 
 安装后，启动新的 Codex 会话，并显式请求使用技能，例如：
 
 ```text
 Use $find-literature to find DOI-verified papers for this topic and update doc/refs.
+Use $analyze-paper-claim-support to explain whether this citation supports the claim and write the report to doc/reports.
 ```
 
 ## 添加更多研究技能

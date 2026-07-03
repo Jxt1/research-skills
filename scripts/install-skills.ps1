@@ -42,7 +42,10 @@ foreach ($skillDir in $skillDirs) {
 
     $target = Join-Path $targetRoot $skillDir.Name
     New-Item -ItemType Directory -Force -Path $target | Out-Null
-    Copy-Item -LiteralPath (Join-Path $skillDir.FullName "*") -Destination $target -Recurse -Force
+    Get-ChildItem -LiteralPath $skillDir.FullName -Force |
+        ForEach-Object {
+            Copy-Item -LiteralPath $_.FullName -Destination $target -Recurse -Force
+        }
     Write-Output "Installed $($skillDir.Name) -> $target"
 }
 
