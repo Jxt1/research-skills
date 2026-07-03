@@ -1,6 +1,6 @@
 ---
 name: find-literature
-description: Assess whether existing local references are sufficient for a user-provided topic, paragraph, claim, or research context; find new DOI-verified academic papers only when needed; download available PDFs into doc/refs/; and maintain doc/refs/index.md. Use whenever Codex is asked to find, collect, cite, add, download, verify, evaluate, or organize papers/literature/references for a project, especially when the user mentions DOI, bibliography, related work, references, existing papers, enough papers, or doc/refs.
+description: Assess whether existing local references are sufficient for a user-provided topic, paragraph, claim, or research context; find recent DOI-verified academic papers first unless foundational or first-proposal papers are specifically needed; download available PDFs into doc/refs/; and maintain doc/refs/index.md. Use whenever Codex is asked to find, collect, cite, add, download, verify, evaluate, or organize papers/literature/references for a project, especially when the user mentions DOI, bibliography, related work, references, existing papers, enough papers, or doc/refs.
 ---
 
 # Find Literature
@@ -13,6 +13,7 @@ Use this skill to collect literature for the current repository. The required ou
 - Before searching, inspect the existing `doc/refs/index.md` if it exists. If the index is incomplete, malformed, inconsistent, or has broken local PDF links, warn the user and ask them to repair the index first. Do not continue literature search or add papers until the index is repaired, unless the user explicitly asks to repair it as part of the task.
 - Before looking for new papers, judge whether the existing references are sufficient for the user's purpose. If they are sufficient, stop and tell the user that no new literature search is needed.
 - Accept as input any topic, paragraph, claim, draft section, paper title, or research direction from the user.
+- When searching for new papers, prefer the latest relevant papers by default, especially for systems, benchmarks, empirical claims, surveys, and state-of-the-art or related-work coverage. Use older papers only when they are foundational, define a classic theory or method, are the first paper to propose the concept, or are necessary for historical attribution.
 - Only add a paper after DOI verification:
   - Resolve or query the DOI through DOI.org, Crossref, publisher pages, DBLP, ACM, IEEE, Springer, USENIX, VLDB, arXiv, OpenAlex, Semantic Scholar, or another credible scholarly source.
   - Confirm the DOI metadata title matches the candidate paper title.
@@ -55,10 +56,10 @@ This index lists DOI-verified papers collected for this repository.
    - Decide whether the current references already cover the user's need.
    - If sufficient, stop and report the decision; do not search for new papers.
 4. If existing references are insufficient or uncertain, explain the coverage gap briefly.
-5. Search scholarly sources for candidate papers targeted to the gap.
+5. Search scholarly sources for candidate papers targeted to the gap, starting with recent publication years and current top venues or journals for the area.
 6. For each candidate, locate and verify its DOI metadata.
 7. Compare DOI title and key content with the candidate and the user's request.
-8. Select relevant papers. Avoid weakly related papers even if they are easy to download.
+8. Select relevant papers using the recency and classic-work policy below. Avoid weakly related papers even if they are easy to download.
 9. Download PDFs into `doc/refs/` when a stable legal PDF is available.
 10. Update `doc/refs/index.md` for every accepted paper, including papers whose PDF download failed.
 11. Report the sufficiency decision, what was added, what could not be downloaded, and which DOI/source checks were used.
@@ -103,6 +104,24 @@ When references are sufficient, answer with:
 - The decision that no new papers are needed.
 - The local references that cover the request.
 - Any caveat, such as "sufficient for background, not for a full related-work section."
+
+## Recency and Classic-Work Policy
+
+Default to recent literature when adding new papers:
+
+- For active research areas, prefer papers from the last 3-5 years when they directly match the user's need.
+- For related-work or state-of-the-art coverage, include recent directly comparable work before older background papers.
+- For surveys, benchmarks, systems papers, and empirical comparisons, prefer the newest credible work because methods, baselines, datasets, and claims change quickly.
+- Do not add an older paper merely because it appears high in search results, is highly cited, or is easier to download.
+
+Use older papers when they have a clear role:
+
+- Foundational theory or classic method that the user needs to cite.
+- First paper that introduced a term, model, algorithm, workload, benchmark, or system family.
+- Historical attribution needed to explain how an idea originated.
+- Seminal baseline still used as the comparison point in recent work.
+
+When both apply, add or recommend a balanced set: the original or seminal paper for attribution plus the latest directly relevant work for current context. Record that role in the `Notes` field, for example `DOI/title verified; seminal origin of graph query language theory` or `DOI/title verified; recent ICDE 2025 system comparison`.
 
 ## Index Entry Requirements
 
