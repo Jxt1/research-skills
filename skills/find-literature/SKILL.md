@@ -30,7 +30,7 @@ Use paths relative to the current repository root:
 ```text
 doc/refs/
   index.md
-  <slugified-title>.pdf
+  <year>_<venue-abbrev>_<simplified-title>.pdf
 ```
 
 If `doc/refs/index.md` does not exist, it is not considered broken. Create it with:
@@ -60,9 +60,37 @@ This index lists DOI-verified papers collected for this repository.
 6. For each candidate, locate and verify its DOI metadata.
 7. Compare DOI title and key content with the candidate and the user's request.
 8. Select relevant papers using the recency and classic-work policy below. Avoid weakly related papers even if they are easy to download.
-9. Download PDFs into `doc/refs/` when a stable legal PDF is available.
+9. Download PDFs into `doc/refs/` when a stable legal PDF is available, then rename each downloaded PDF using the PDF Filename Convention below before adding it to the index.
 10. Update `doc/refs/index.md` for every accepted paper, including papers whose PDF download failed.
 11. Report the sufficiency decision, what was added, what could not be downloaded, and which DOI/source checks were used.
+
+## PDF Filename Convention
+
+Name newly downloaded PDFs with this format:
+
+```text
+<publication-year>_<venue-or-journal-abbrev>_<simplified-title>.pdf
+```
+
+Rules:
+
+- `publication-year`: four-digit publication year from DOI metadata or another trusted source.
+- `venue-or-journal-abbrev`: standard conference, journal, or archive abbreviation, using uppercase letters when customary, for example `ICDE`, `SIGMOD`, `VLDB`, `TODS`, `PVLDB`, `TKDE`, `TOIS`, `KDD`, `WWW`, `NeurIPS`, `arXiv`. If no reliable abbreviation is available, derive a short ASCII abbreviation from the venue name, such as `JSS` for `Journal of Systems and Software`.
+- `simplified-title`: concise ASCII slug made from the DOI-verified title:
+  - Convert to lowercase.
+  - Keep only letters, digits, and hyphens.
+  - Replace spaces and punctuation with single hyphens.
+  - Remove leading/trailing hyphens.
+  - Drop generic filler words when doing so keeps the title recognizable, such as `a`, `an`, `the`, `towards`, `toward`, `study`, `survey`, `approach`.
+  - Prefer 5-10 meaningful words; keep important system, benchmark, dataset, model, or method names.
+- If the generated filename already exists for a different paper, append `-2`, `-3`, and so on before `.pdf`.
+- Do not rename existing PDFs unless the user explicitly asks for a normalization pass.
+
+Example:
+
+```text
+2024_ICDE_ldbc-social-network-benchmark-v2.pdf
+```
 
 ## Preflight Index Check
 
@@ -156,7 +184,7 @@ Example:
   -Year "2024" `
   -Venue "ICDE" `
   -Doi "10.1145/example" `
-  -PdfFile "example-paper-title.pdf" `
+  -PdfFile "2024_ICDE_example-paper-title.pdf" `
   -Notes "DOI/title verified; relevant to subgraph query optimization."
 ```
 
