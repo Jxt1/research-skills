@@ -1,6 +1,6 @@
 ---
 name: find-literature
-description: Assess whether existing local references are sufficient for a user-provided topic, paragraph, claim, or research context; find recent DOI-verified academic papers first unless foundational or first-proposal papers are specifically needed; download available PDFs into doc/refs/; and maintain doc/refs/index.md. Use whenever Codex is asked to find, collect, cite, add, download, verify, evaluate, or organize papers/literature/references for a project, especially when the user mentions DOI, bibliography, related work, references, existing papers, enough papers, or doc/refs.
+description: Assess whether existing local references are sufficient for a user-provided topic, paragraph, claim, or research context; find recent DOI-, title-, and author-verified academic papers first unless foundational or first-proposal papers are specifically needed; download available PDFs into doc/refs/; and maintain doc/refs/index.md. Use whenever Codex is asked to find, collect, cite, add, download, verify, evaluate, or organize papers/literature/references for a project, especially when the user mentions DOI, bibliography, related work, references, existing papers, enough papers, or doc/refs.
 ---
 
 # Find Literature
@@ -14,9 +14,10 @@ Use this skill to collect literature for the current repository. The required ou
 - Before looking for new papers, judge whether the existing references are sufficient for the user's purpose. If they are sufficient, stop and tell the user that no new literature search is needed.
 - Accept as input any topic, paragraph, claim, draft section, paper title, or research direction from the user.
 - When searching for new papers, prefer the latest relevant papers by default, especially for systems, benchmarks, empirical claims, surveys, and state-of-the-art or related-work coverage. Use older papers only when they are foundational, define a classic theory or method, are the first paper to propose the concept, or are necessary for historical attribution.
-- Only add a paper after DOI verification:
+- Only add a paper after DOI, title, and author verification:
   - Resolve or query the DOI through DOI.org, Crossref, publisher pages, DBLP, ACM, IEEE, Springer, USENIX, VLDB, arXiv, OpenAlex, Semantic Scholar, or another credible scholarly source.
   - Confirm the DOI metadata title matches the candidate paper title.
+  - Confirm the author list matches a trusted bibliographic source. Check author spelling, initials, diacritics/transliteration, and ordering. If sources disagree, prefer the publisher record or DOI registration metadata and mention the discrepancy in `Notes`.
   - Confirm at least one key content signal matches the user's need: abstract, keywords, venue, cited snippet, paper page, or full text.
 - Do not add papers based only on search-result snippets.
 - Prefer official or stable sources for PDFs: publisher open-access PDF, author institutional page, conference page, arXiv, HAL, Zenodo, or other legitimate open repositories.
@@ -38,7 +39,7 @@ If `doc/refs/index.md` does not exist, it is not considered broken. Create it wi
 ```markdown
 # References
 
-This index lists DOI-verified papers collected for this repository.
+This index lists DOI-, title-, and author-verified papers collected for this repository.
 
 | Title | Year | Venue | DOI | PDF | Notes |
 | --- | --- | --- | --- | --- | --- |
@@ -58,11 +59,11 @@ This index lists DOI-verified papers collected for this repository.
 4. If existing references are insufficient or uncertain, explain the coverage gap briefly.
 5. Search scholarly sources for candidate papers targeted to the gap, starting with recent publication years and current top venues or journals for the area.
 6. For each candidate, locate and verify its DOI metadata.
-7. Compare DOI title and key content with the candidate and the user's request.
+7. Compare DOI title, author list, and key content with the candidate and the user's request.
 8. Select relevant papers using the recency and classic-work policy below. Avoid weakly related papers even if they are easy to download.
 9. Download PDFs into `doc/refs/` when a stable legal PDF is available, then rename each downloaded PDF using the PDF Filename Convention below before adding it to the index.
 10. Update `doc/refs/index.md` for every accepted paper, including papers whose PDF download failed.
-11. Report the sufficiency decision, what was added, what could not be downloaded, and which DOI/source checks were used.
+11. Report the sufficiency decision, what was added, what could not be downloaded, and which DOI/title/author source checks were used.
 
 ## PDF Filename Convention
 
@@ -113,7 +114,7 @@ If problems are found, do not silently fix them while searching. Ask the user to
 
 Evaluate sufficiency before any new literature search. Use the user's stated purpose as the standard:
 
-- For citing a simple factual/background claim, one or two highly relevant DOI-verified references may be enough.
+- For citing a simple factual/background claim, one or two highly relevant DOI/title/author-verified references may be enough.
 - For related-work coverage, expect multiple complementary references across foundational work, closest competing systems/methods, and recent work.
 - For a paper section that makes novelty or state-of-the-art claims, check whether the existing references include recent and directly comparable work; browse minimally if currentness is uncertain.
 - For an implementation or system-comparison claim, ensure existing references cover both the conceptual method and comparable systems or benchmarks.
@@ -124,7 +125,7 @@ Treat existing references as insufficient when:
 - Existing entries are only loosely related to the user's paragraph or claim.
 - Important subtopics from the user's request have no matching local reference.
 - The set is stale for a claim that depends on recent work.
-- Existing entries lack DOI verification notes, usable PDFs, or enough metadata to judge relevance.
+- Existing entries lack DOI/title/author verification notes, usable PDFs, or enough metadata to judge relevance.
 - The user explicitly asks to expand, update, or find additional papers.
 
 When references are sufficient, answer with:
@@ -149,7 +150,7 @@ Use older papers when they have a clear role:
 - Historical attribution needed to explain how an idea originated.
 - Seminal baseline still used as the comparison point in recent work.
 
-When both apply, add or recommend a balanced set: the original or seminal paper for attribution plus the latest directly relevant work for current context. Record that role in the `Notes` field, for example `DOI/title verified; seminal origin of graph query language theory` or `DOI/title verified; recent ICDE 2025 system comparison`.
+When both apply, add or recommend a balanced set: the original or seminal paper for attribution plus the latest directly relevant work for current context. Record that role in the `Notes` field, for example `DOI/title/authors verified; seminal origin of graph query language theory` or `DOI/title/authors verified; recent ICDE 2025 system comparison`.
 
 ## Index Entry Requirements
 
@@ -160,9 +161,11 @@ Each index row must include:
 - `Venue`: conference, journal, archive, or publisher venue when known.
 - `DOI`: DOI as a Markdown link to `https://doi.org/<doi>`.
 - `PDF`: local PDF filename as a Markdown link, or `missing-pdf`.
-- `Notes`: short relevance note plus verification status, for example `DOI/title verified; matches graph pattern matching workload`.
+- `Notes`: short relevance note plus verification status, for example `DOI/title/authors verified; matches graph pattern matching workload`.
 
 Before adding a row, check the index for an existing DOI or normalized title. If present, update only missing fields such as PDF filename or notes.
+
+When adding or updating BibTeX entries, verify the `author` field against the same trusted source used for the DOI/title check. Preserve the publisher's author order, use full names when available, and keep BibTeX-safe accents or braces for names that require them.
 
 ## Helper Script
 
@@ -185,7 +188,7 @@ Example:
   -Venue "ICDE" `
   -Doi "10.1145/example" `
   -PdfFile "2024_ICDE_example-paper-title.pdf" `
-  -Notes "DOI/title verified; relevant to subgraph query optimization."
+  -Notes "DOI/title/authors verified; relevant to subgraph query optimization."
 ```
 
 Use `-PdfFile ""` or omit it when the PDF download failed; the script will write `missing-pdf`.
@@ -195,7 +198,7 @@ Use `-PdfFile ""` or omit it when the PDF download failed; the script will write
 Keep the final response concise:
 
 - Mention whether existing references were sufficient or why new search was needed.
-- Mention the number of DOI-verified papers added or updated.
+- Mention the number of DOI/title/author-verified papers added or updated.
 - List downloaded PDF filenames.
 - List missing PDFs for manual download.
 - Mention the index path.
