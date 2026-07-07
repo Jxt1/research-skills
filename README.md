@@ -1,6 +1,6 @@
 # Research Skills for Codex
 
-这是一个面向 Codex 的研究技能集合仓库。当前包含文献检索、引用支撑分析与论文引用放置等技能，后续可以继续在 `skills/` 下添加其他研究技能，而不需要改变安装方式。
+这是一个面向 Codex 的研究技能集合仓库。当前包含文献检索、引用支撑分析、论文引用放置与 LaTeX 论文写作等技能，后续可以继续在 `skills/` 下添加其他研究技能，而不需要改变安装方式。
 
 ## 已包含技能
 
@@ -9,6 +9,7 @@
 | `find-literature` | 检查本地参考文献是否足够；在需要时查找经过 DOI 验证的论文；下载可用 PDF；维护 `doc/refs/index.md`。 |
 | `analyze-paper-claim-support` | 分析引用论文是否支撑论文、综述或 proposal 中的具体表述，并在 `doc/reports/` 生成 Markdown 分析报告。 |
 | `place-paper-citations` | 在 LaTeX 或普通文本中把论文引用放到其精确支撑的术语、对象、方法、系统、数据集、标准或论断旁边。 |
+| `paper-writing-latex` | 编辑、审阅或补写 LaTeX 论文正文、表格说明、图表说明、实验设置、相关工作和 TODO 驱动的稿件内容，保持可发表的学术写作质量。 |
 
 ## 仓库结构
 
@@ -23,6 +24,9 @@ skills/
     agents/openai.yaml
     scripts/
   place-paper-citations/
+    SKILL.md
+    agents/openai.yaml
+  paper-writing-latex/
     SKILL.md
     agents/openai.yaml
 scripts/
@@ -59,12 +63,14 @@ bash scripts/install-skills.sh
 .\scripts\install-skills.ps1 -Skill find-literature
 .\scripts\install-skills.ps1 -Skill analyze-paper-claim-support
 .\scripts\install-skills.ps1 -Skill place-paper-citations
+.\scripts\install-skills.ps1 -Skill paper-writing-latex
 ```
 
 ```bash
 bash scripts/install-skills.sh find-literature
 bash scripts/install-skills.sh analyze-paper-claim-support
 bash scripts/install-skills.sh place-paper-citations
+bash scripts/install-skills.sh paper-writing-latex
 ```
 
 安装到自定义 Codex home：
@@ -85,6 +91,7 @@ CODEX_HOME="$HOME/.codex" bash scripts/install-skills.sh
 Use $find-literature to find DOI-verified papers for this topic and update doc/refs.
 Use $analyze-paper-claim-support to explain whether this citation supports the claim and write the report to doc/reports.
 Use $place-paper-citations to add precise citations to this LaTeX paragraph.
+Use $paper-writing-latex to revise this LaTeX paper section for clear academic writing.
 ```
 
 ## 添加更多研究技能
