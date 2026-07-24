@@ -1,0 +1,4 @@
+interface:
+  display_name: "Evidence-Grounded Paper Interpretation"
+  short_description: "Interpret papers with quotes and precise source locations"
+  default_prompt: "Use $interpret-paper-with-evidence to interpret this paper and ground every substantive claim in quoted source text with precise locations."
