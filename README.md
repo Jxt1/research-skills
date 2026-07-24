@@ -9,11 +9,8 @@
 | `find-literature` | 检查本地参考文献是否足够；在需要时查找经过 DOI 验证的论文；下载可用 PDF；维护 `doc/refs/index.md`。 |
 | `analyze-paper-claim-support` | 分析引用论文是否支撑论文、综述或 proposal 中的具体表述，并在 `doc/reports/` 生成 Markdown 分析报告。 |
 | `place-paper-citations` | 在 LaTeX 或普通文本中把论文引用放到其精确支撑的术语、对象、方法、系统、数据集、标准或论断旁边。 |
-<<<<<<< HEAD
 | `paper-writing-latex` | 编辑、审阅或补写 LaTeX 论文正文、表格说明、图表说明、实验设置、相关工作和 TODO 驱动的稿件内容，保持可发表的学术写作质量。 |
-=======
 | `interpret-paper-with-evidence` | 解读、总结或问答论文，并为每个实质性观点提供原文摘录、精确位置和证据关系说明。 |
->>>>>>> f4c683e6fbc09c997455180990cc41f12d497a0e
 
 ## 仓库结构
 
@@ -30,11 +27,10 @@ skills/
   place-paper-citations/
     SKILL.md
     agents/openai.yaml
-<<<<<<< HEAD
   paper-writing-latex/
-=======
+    SKILL.md
+    agents/openai.yaml
   interpret-paper-with-evidence/
->>>>>>> f4c683e6fbc09c997455180990cc41f12d497a0e
     SKILL.md
     agents/openai.yaml
 scripts/
